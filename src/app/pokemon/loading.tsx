@@ -2,11 +2,7 @@
 import Image from 'next/image';
 import pokeball from '../../../public/pokeball.png';
 
-export default function Loading({
-    params
-}: {
-    params: { name: string }
-}) {
+export default function Loading({ }) {
 
 
     return (
