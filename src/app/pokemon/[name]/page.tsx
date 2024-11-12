@@ -1,16 +1,14 @@
 "use client"
 import { useEffect, useRef, useState } from 'react';
-import { getByName, Pokemon } from '../utils/getPokemon';
-import { PokemonCard } from '../components/PokemonCard';
+import { getByName, Pokemon } from '../../../utils/getPokemon';
+import { PokemonCard } from '../../../components/PokemonCard';
 import { useRouter } from 'next/navigation';
+import { ORIGINAL_POKEMON } from '../../../utils/nameList';
 import Image from 'next/image';
-import { ORIGINAL_POKEMON } from '../utils/nameList';
-import pokeball from '../../public/pokeball.png';
+import pokeball from '../../../../public/pokeball.png';
 import Link from 'next/link';
 
-
-
-export default function Home({
+export default function PokemonPage({
   params
 }: {
   params: { name: string }
@@ -82,7 +80,7 @@ export default function Home({
 
       <div className="max-w-2xl mx-auto p-8">
         {pokemon && (
-          <div className="mb-8">
+          <div className="mb-8 flex justify-center">
             <PokemonCard pokemon={pokemon} />
           </div>
         )}
