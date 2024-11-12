@@ -39,7 +39,7 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
                     <div className="flex items-center gap-2">
                         {pokemon.types.map(({ type }) => {
                             const style = TYPE_STYLES[type.name as keyof typeof TYPE_STYLES];
-                            return (<div className='flex flex-row '>
+                            return (<div key={type.name} className='flex flex-row '>
                                 <span>{style.emoji}</span>
                                 <span key={type.name} className="capitalize text-sm font-bold  flex items-center gap-1">
                                     {type.name} Type

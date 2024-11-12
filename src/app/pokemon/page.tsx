@@ -10,8 +10,8 @@ import Link from 'next/link';
 
 export default function PokemonPage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [selectedPokemon] = useState<Pokemon | null>(null);
+  const [isLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const searchRef = useRef<HTMLDivElement>(null)
