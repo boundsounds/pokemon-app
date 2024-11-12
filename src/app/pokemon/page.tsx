@@ -1,38 +1,22 @@
 "use client"
-import { useEffect, useRef, useState } from 'react';
-import { getByName, Pokemon } from '../utils/getPokemon';
-import { PokemonCard } from '../components/PokemonCard';
+import { Pokemon } from '../../utils/getPokemon';
+import { PokemonCard } from '../../components/PokemonCard';
+import { useRef, useState, useEffect } from 'react';
+import { ORIGINAL_POKEMON } from '../../utils/nameList';
+import pokeball from '../../../public/pokeball.png';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { ORIGINAL_POKEMON } from '../utils/nameList';
-import pokeball from '../../public/pokeball.png';
 import Link from 'next/link';
 
-
-
-export default function Home({
-  params
-}: {
-  params: { name: string }
-}) {
-  const [pokemon, setPokemon] = useState<Pokemon | null>(null);
+export default function PokemonPage() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
-  const searchRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLDivElement>(null)
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchPokemon = async () => {
-      try {
-        const data = await getByName(params.name);
-        setPokemon(data);
-      } catch (error) {
-        console.error('Error fetching Pokemon:', error);
-      }
-    };
-    fetchPokemon();
-  }, [params.name]);
+  ;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -40,6 +24,7 @@ export default function Home({
         setShowSuggestions(false);
       }
     }
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
@@ -49,9 +34,13 @@ export default function Home({
       const filtered = ORIGINAL_POKEMON.filter(pokemon =>
         pokemon.toLowerCase().includes(searchTerm.toLowerCase())
       ).slice(0, 5);
+
+
       setSuggestions(filtered);
       setShowSuggestions(true);
+
     } else {
+
       setSuggestions([]);
       setShowSuggestions(false);
     }
@@ -81,9 +70,9 @@ export default function Home({
       </nav>
 
       <div className="max-w-2xl mx-auto p-8">
-        {pokemon && (
-          <div className="mb-8">
-            <PokemonCard pokemon={pokemon} />
+        {selectedPokemon && (
+          <div className="mb-8 flex justify-evenly">
+            <PokemonCard pokemon={selectedPokemon} />
           </div>
         )}
 
@@ -104,7 +93,8 @@ export default function Home({
               />
               <button
                 onClick={() => handleSearch(searchTerm)}
-                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                disabled={isLoading}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
               >
                 Search
               </button>
